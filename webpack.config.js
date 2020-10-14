@@ -9,9 +9,11 @@ const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin') //
 const FileManagerPlugin = require('filemanager-webpack-plugin'); // webpack copy move delete mkdir archive
 
 console.log(path.resolve(__dirname, '~/'));
+console.log("process.env.NODE_ENV", process.env.NODE_ENV);
+console.log("process.env.API_SERVER_URL", process.env.API_SERVER_URL);
+
 
 module.exports = {
-
     optimization: { // 优化项
         minimizer: [ // 压缩优化
             new UglifyJsPlugin({
@@ -23,10 +25,10 @@ module.exports = {
         ]
     },
 
-    mode: 'development', // 两种模式， production (生产模式) development（开发模式）
+    mode: process.env.NODE_ENV, // 两种模式， production (生产模式) development（开发模式）
 
     entry: {
-        index: './app/index.jsx'
+        index: ['./app/scripts/shim.js', './app/styles/main.scss', './app/scripts/main.jsx']
     },
 
     devtool: 'source-map', // 源码映射，生成一个映射文件，帮我们定位源码文件
@@ -39,7 +41,7 @@ module.exports = {
     resolve: {
         modules: [path.resolve('node_modules')],
         alias: {
-          '~': path.resolve(__dirname, './app')
+          '~': path.resolve(__dirname, './app/scripts')
         },
         extensions: ['.js', '.jsx', '.scss', '.css'] // 配置省略后缀名
     },
