@@ -1,22 +1,20 @@
 //webpack
 
-const path = require('path')
-const webpack = require('webpack') // webpack 插件
-const HtmlWebpackPlugin = require('html-webpack-plugin')
-const MiniCssExtractPlugin = require('mini-css-extract-plugin') // 抽离 css 文件，使用这个插件需要单独配置JS和CSS压缩
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin') // 压缩JS
-const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin') // 压缩CSS
+const path = require('path');
+const webpack = require('webpack'); // webpack 插件
+const dotenv = require('dotenv').config();
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin'); // 抽离 css 文件，使用这个插件需要单独配置 JS 和 CSS 压缩
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin'); // 压缩 JS
+const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin'); // 压缩 CSS
 const FileManagerPlugin = require('filemanager-webpack-plugin'); // webpack copy move delete mkdir archive
 
 console.log(path.resolve(__dirname, '~/'));
-console.log("process.env.NODE_ENV", process.env.NODE_ENV);
-console.log("process.env.API_SERVER_URL", process.env.API_SERVER_URL);
-
+console.log('NODE_ENV:', process.env.NODE_ENV);
 const ASSET_PATH = process.env.ASSET_PATH || '/';
 
-console.log("JSON.stringify(ASSET_PATH)", JSON.stringify(ASSET_PATH));
 
-module.exports = {
+const config = {
   optimization: { // 优化项
     minimizer: [ // 压缩优化
       new UglifyJsPlugin({
@@ -28,13 +26,12 @@ module.exports = {
     ]
   },
 
-  mode: process.env.NODE_ENV, // 两种模式， production (生产模式) development（开发模式）
+  // 两种模式， production (生产模式) development（开发模式）
+  mode: process.env.NODE_ENV,
 
   entry: {
     index: ['./app/scripts/shim.js', './app/styles/main.scss', './app/scripts/main.jsx']
   },
-
-  devtool: 'source-map', // 源码映射，生成一个映射文件，帮我们定位源码文件
 
   output: {
     filename: '[name].js', // 打包后的文件名
@@ -115,42 +112,6 @@ module.exports = {
     ]
   },
 
-
-  plugins: [ // 数组，放着所有 webpack 插件
-    new webpack.DefinePlugin({
-      'process.env.ASSET_PATH': JSON.stringify(ASSET_PATH),
-    }),
-    new HtmlWebpackPlugin({
-      template: './app/index.html',
-      filename: 'index.html',
-      // minify: {
-      //     removeComments: true,
-      //     removeAttributeQuotes: true,
-      //     collapseWhitespace: true
-      // },
-      hash: true,
-      chunks: ['index']
-    }),
-
-    new MiniCssExtractPlugin({
-      filename: 'css/[name].min.css'
-    }),
-
-    new FileManagerPlugin({
-      onEnd: {
-        copy: [{
-          source: path.resolve(__dirname, 'favicon.ico'),
-          destination: path.resolve(__dirname, 'dist/')
-        }]
-      }
-    }),
-
-    new webpack.DefinePlugin({
-      DEV: JSON.stringify('dev'),
-    }),
-
-  ],
-
   // watch: true,
   // watchOptions: {
   //     poll: 2000, // 每秒问我多少次
@@ -164,6 +125,55 @@ module.exports = {
     progress: true, // 进度条
     contentBase: './dist', // 配置目录
     open: true, // 在DevServer第一次构建完成时，自动用浏览器打开网页
-    historyApiFallback: true
+    historyApiFallback: true,
+    hot: true,
+    proxy: {
+      '/api': {
+          target: process.env.API_SERVER_URL,
+          //changeOrigin 的意思就是把 http 请求中的 Origin 字段进行变换，在浏览器接收到后端回复的时候，浏览器会以为这是本地请求，而在后端那边会以为是在站内的调用。
+          changeOrigin: true,
+      }
+    },
   }
+};
+
+const htmlWebpackPluginConfig = {
+  template: './app/index.html',
+  filename: 'index.html',
+  hash: true,
+  chunks: ['index']
 }
+
+const plugins = [ // 数组，放着所有 webpack 插件
+  new webpack.DefinePlugin({
+    'process.env.ASSET_PATH': JSON.stringify(ASSET_PATH),
+  }),
+  new MiniCssExtractPlugin({
+    filename: 'css/[name].min.css'
+  }),
+  new FileManagerPlugin({
+    onEnd: {
+      copy: [{
+        source: path.resolve(__dirname, 'favicon.ico'),
+        destination: path.resolve(__dirname, 'dist/')
+      }]
+    }
+  })
+]
+
+
+if (process.env.NODE_ENV === 'production') {
+  // 优化 html 文件
+  htmlWebpackPluginConfig.minify = {
+    removeComments: true,
+    removeAttributeQuotes: true,
+    collapseWhitespace: true
+  }
+  // 源码映射，生成一个映射文件，帮我们定位源码文件
+  config.devtool = 'source-map';
+}
+
+plugins.push(new HtmlWebpackPlugin(htmlWebpackPluginConfig));
+
+config.plugins = plugins;
+module.exports = config;

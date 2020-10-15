@@ -4,11 +4,11 @@
   "description": "react-miniui-cli-repository",
   "main": "index.js",
   "scripts": {
-    "dev": "webpack serve --mode development",
-    "start": "webpack serve --mode development",
+    "dev": "NODE_ENV=development webpack serve --mode development",
+    "start": "NODE_ENV=development webpack serve --mode development",
     "lint": "npx eslint app/**/*.js && flow check",
     "flowcheck": "flow check",
-    "build": "rm -rf ./dist && webpack --mode production"
+    "build": "rm -rf ./dist && NODE_ENV=production webpack --mode production"
   },
   "repository": {
     "type": "git",
@@ -36,6 +36,7 @@
     "babel-loader": "^8.0.5",
     "babel-plugin-import": "^1.11.0",
     "css-loader": "^2.1.0",
+    "dotenv": "^8.2.0",
     "eslint": "^5.15.1",
     "eslint-plugin-flowtype": "^5.2.0",
     "eslint-plugin-react": "^7.12.4",
