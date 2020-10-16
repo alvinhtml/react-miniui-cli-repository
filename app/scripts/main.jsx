@@ -2,17 +2,12 @@ import React, {Component, useState, useEffect} from 'react';
 import ReactDOM, {render} from 'react-dom';
 import {BrowserRouter, Switch, Route, Link} from 'react-router-dom';
 
-// use react-miniui
-import 'react-miniui/dist/miniui.css';
 
 // if use react-miniui Modal, import ActiveModal
 import {ActiveModal} from 'react-miniui';
 
-import '../styles/main.scss';
-
-import Header from '~/container/Header';
-import Main from '~/container/Main';
-import Router from './routes';
+import Header from '~/components/Header';
+import Router from '~/routes';
 
 class App extends Component {
   render() {

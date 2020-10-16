@@ -29,6 +29,8 @@ const config = {
   // 两种模式， production (生产模式) development（开发模式）
   mode: process.env.NODE_ENV,
 
+  devtool: 'source-map',
+
   entry: {
     index: ['./app/scripts/shim.js', './app/styles/main.scss', './app/scripts/main.jsx']
   },
@@ -42,7 +44,7 @@ const config = {
   resolve: {
     modules: [path.resolve('node_modules')],
     alias: {
-      '~': path.resolve(__dirname, './app/scripts')
+      '~': path.resolve(__dirname, './app/scripts/')
     },
     extensions: ['.js', '.jsx', '.scss', '.css'] // 配置省略后缀名
   },
@@ -56,15 +58,6 @@ const config = {
           MiniCssExtractPlugin.loader,
           'css-loader',
           'postcss-loader'
-        ]
-      },
-      {
-        test: /\.less$/,
-        use: [
-          MiniCssExtractPlugin.loader,
-          'css-loader',
-          'postcss-loader',
-          'less-loader'
         ]
       },
       {
@@ -94,7 +87,9 @@ const config = {
             ],
             plugins: [ // 这里可以配置一些小的插件
               '@babel/plugin-proposal-class-properties',
-              '@babel/plugin-syntax-dynamic-import'
+              '@babel/plugin-syntax-dynamic-import',
+              '@babel/plugin-transform-runtime',
+              '@babel/plugin-transform-regenerator'
             ]
           }
         }
@@ -118,23 +113,6 @@ const config = {
   //     aggregateTimeout: 2000, // 防抖
   //     ignored: /node_modules|vendor|build|public|resources/
   // },
-
-  devServer: {
-    // host: '0.0.0.0',
-    port: 8080,
-    progress: true, // 进度条
-    contentBase: './dist', // 配置目录
-    open: true, // 在DevServer第一次构建完成时，自动用浏览器打开网页
-    historyApiFallback: true,
-    hot: true,
-    proxy: {
-      '/api': {
-          target: process.env.API_SERVER_URL,
-          //changeOrigin 的意思就是把 http 请求中的 Origin 字段进行变换，在浏览器接收到后端回复的时候，浏览器会以为这是本地请求，而在后端那边会以为是在站内的调用。
-          changeOrigin: true,
-      }
-    },
-  }
 };
 
 const htmlWebpackPluginConfig = {
@@ -149,7 +127,7 @@ const plugins = [ // 数组，放着所有 webpack 插件
     'process.env.ASSET_PATH': JSON.stringify(ASSET_PATH),
   }),
   new MiniCssExtractPlugin({
-    filename: 'css/[name].min.css'
+    filename: '[name].min.css'
   }),
   new FileManagerPlugin({
     onEnd: {
@@ -161,6 +139,28 @@ const plugins = [ // 数组，放着所有 webpack 插件
   })
 ]
 
+const devServer = {
+  port: 8080,
+  progress: true, // 进度条
+  contentBase: './dist', // 配置目录
+  open: true, // 在DevServer第一次构建完成时，自动用浏览器打开网页
+  historyApiFallback: true,
+  hot: true,
+  proxy: {
+    '/api': {
+      target: process.env.API_SERVER_URL,
+      //changeOrigin 的意思就是把 http 请求中的 Origin 字段进行变换，在浏览器接收到后端回复的时候，浏览器会以为这是本地请求，而在后端那边会以为是在站内的调用。
+      changeOrigin: true,
+    }
+  },
+  before(app) {
+    app.get('/api/test', (req, res) => {
+      res.json({
+        'status': 'successful!'
+      })
+    })
+  }
+}
 
 if (process.env.NODE_ENV === 'production') {
   // 优化 html 文件
@@ -170,7 +170,9 @@ if (process.env.NODE_ENV === 'production') {
     collapseWhitespace: true
   }
   // 源码映射，生成一个映射文件，帮我们定位源码文件
-  config.devtool = 'source-map';
+  config.devtool = 'none';
+} else {
+  config.devServer = devServer;
 }
 
 plugins.push(new HtmlWebpackPlugin(htmlWebpackPluginConfig));
