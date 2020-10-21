@@ -35,10 +35,12 @@ const todoRemove = ctx => {
   ctx.response.type = 'json';
   const id = parseInt(ctx.params.id);
 
-  if (id < todos.length) {
+  console.log("id", id, todos.length);
+
+  try {
     todos = todos.filter(item => item.id !== id);
     ctx.response.body = '';
-  } else {
+  } catch (error) {
     ctx.throw(400, 'This ID cannot be found.');
   }
 

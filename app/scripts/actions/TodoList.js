@@ -2,7 +2,7 @@
 
 import {TodoList} from '~/services/TodoList';
 
-export async function getTodos(): Promise<void> {
+export async function loadTodos(): Promise<void> {
   const response = await new TodoList().get();
 
   console.log("response", response);

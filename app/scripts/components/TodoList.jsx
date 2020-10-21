@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {getTodos, createTodo, removeTodo} from '~/actions/TodoList'
+import {loadTodos, createTodo, removeTodo} from '~/actions/TodoList'
 
 export default class TodoList extends Component<{}, {todos: Array<{title: string}>}> {
 
@@ -15,12 +15,10 @@ export default class TodoList extends Component<{}, {todos: Array<{title: string
   }
 
   getTodo() {
-    getTodos()
+    loadTodos()
       .then((data) => {
         this.setState({
-          todos: data,
-          title: '',
-          errorMessage: ''
+          todos: data
         });
       })
   }
