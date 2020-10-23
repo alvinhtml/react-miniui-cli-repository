@@ -1,11 +1,18 @@
 /* @flow */
+/* @flow */
 
+import {dispatch} from '../stores/State';
+import {ActionTypes} from '../Constants';
 import {TodoList} from '~/services/TodoList';
 
 export async function loadTodos(): Promise<void> {
   const response = await new TodoList().get();
 
-  console.log("response", response);
+  dispatch({
+    type: ActionTypes.TODO_LIST_LOAD_SUCCESS,
+    response
+  });
+
   return response;
 }
 

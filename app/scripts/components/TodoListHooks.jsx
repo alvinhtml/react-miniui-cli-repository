@@ -1,11 +1,16 @@
+/* @flow */
+
 import React, {Component, useState, useEffect, useCallback} from 'react';
-import {loadTodos, createTodo, removeTodo} from '~/actions/TodoList'
+import {loadTodos, createTodo, removeTodo} from '~/actions/TodoList';
+import {store, dispatch} from '~/stores/Store';
 
 
 export default function TodoList () {
   const [title, setTitle] = useState('');
   const [todos, setTodos] = useState([]);
   const [errorMessage, setErrorMessage] = useState('');
+
+  console.log("store", store);
 
   const handleLoadTodos = useCallback(() => {
     loadTodos()

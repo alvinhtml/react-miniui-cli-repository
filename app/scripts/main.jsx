@@ -1,3 +1,5 @@
+/* @flow */
+
 import React, {Component, useState, useEffect} from 'react';
 import ReactDOM, {render} from 'react-dom';
 import {BrowserRouter, Switch, Route, Link} from 'react-router-dom';

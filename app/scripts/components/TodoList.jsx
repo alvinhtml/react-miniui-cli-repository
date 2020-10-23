@@ -1,5 +1,8 @@
+/* @flow */
+
 import React, {Component} from 'react';
-import {loadTodos, createTodo, removeTodo} from '~/actions/TodoList'
+import {Button} from 'react-miniui';
+import {loadTodos, createTodo, removeTodo} from '~/actions/TodoList';
 
 export default class TodoList extends Component<{}, {todos: Array<{title: string}>}> {
 
@@ -52,15 +55,24 @@ export default class TodoList extends Component<{}, {todos: Array<{title: string
   render() {
     const {todos, title, errorMessage} = this.state;
     return(
-      <div>
-        <ul>
-          {todos.map((v, i) => (
-            <li key={i}><span>{v.id}.</span> {v.title} <span onClick={this.handleRemove.bind(this, v.id)}>Remove</span></li>
+      <div className="todo-wrap">
+        <table>
+          <tr>
+            <th>ID</th>
+            <th>标题</th>
+            <th>操作</th>
+          </tr>
+          {todos.map((item) => (
+            <tr key={item.id}>
+              <td>{item.id}</td>
+              <td>{item.title}</td>
+              <td><Button size="mini" color="blue" onClick={this.handleRemove.bind(this, item.id)}>删除</Button></td>
+            </tr>
           ))}
-        </ul>
+        </table>
         <div>
           <input type="text" onChange={this.handleChange.bind(this)} />
-          <button onClick={this.handleCreate.bind(this)}>添加</button>
+          <Button color="blue" onClick={this.handleCreate.bind(this)}>添加</Button>
         </div>
         {!!errorMessage
           && <p style={{color: 'red'}}>{errorMessage}</p>
