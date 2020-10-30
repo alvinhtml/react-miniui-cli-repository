@@ -1,13 +1,13 @@
 /* @flow */
 
 import React, {Component} from 'react';
-import {Button} from 'react-miniui';
+import {FormGroup, Button, Input} from 'react-miniui';
 import {loadTodos, createTodo, removeTodo} from '~/actions/TodoList';
 
-export default class TodoList extends Component<{}, {todos: Array<{title: string}>}> {
+export default class TodoList extends Component<{}, {todos: Array<string>}> {
 
-  constructor(props) {
-    super(props)
+  constructor() {
+    super()
     this.state = {
       todos: []
     }
@@ -70,10 +70,10 @@ export default class TodoList extends Component<{}, {todos: Array<{title: string
             </tr>
           ))}
         </table>
-        <div>
-          <input type="text" onChange={this.handleChange.bind(this)} />
+        <FormGroup>
+          <Input type="text" onChange={this.handleChange.bind(this)} />
           <Button color="blue" onClick={this.handleCreate.bind(this)}>添加</Button>
-        </div>
+        </FormGroup>
         {!!errorMessage
           && <p style={{color: 'red'}}>{errorMessage}</p>
         }

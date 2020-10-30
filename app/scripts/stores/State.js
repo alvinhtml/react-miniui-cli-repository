@@ -2,6 +2,7 @@
 
 import {Map} from 'immutable';
 import {createStore} from 'redux';
+import type {Store} from 'redux';
 
 import {makeRootReducer} from '~/stores/Reducer';
 import type {KeyPath} from '~/stores/Reducer';

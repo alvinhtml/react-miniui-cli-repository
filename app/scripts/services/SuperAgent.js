@@ -13,7 +13,6 @@ const promiseWrapper = function(agent) {
   agent.end = function(callback) {
     return new Promise((resolve, reject) => {
       originEnd.call(agent, (error, res) => {
-        console.log("res", res);
         if (callback) {
           try {
             resolve(callback(res));

@@ -1,12 +1,11 @@
 /* @flow */
 
 import {fromJS} from 'immutable';
-import Cursor from 'immutable/contrib/cursor';
-import type {Cursor as CursorType} from 'immutable/contrib/cursor';
+import type {Map as MapType} from 'immutable';
+import Cursor from 'immutable-cursor';
+import {observe, getState, addCursorHandler} from '~/stores/State';
 
-import {observe, getState, addCursorHandler} from '~/State';
-
-type NewActionHander = (cursor: CursorType, body: Object) => void;
+type NewActionHander = (cursor: MapType<string, any>, body: Object) => void;
 type ActionHandler = NewActionHander;
 
 function createReadCursor(path: Array<string>) {
@@ -71,7 +70,7 @@ class Store {
     });
   }
 
-  static observe(stores: Array<Store>, listener: Function) {
+  static observe(stores: Array<Store>, listener: Function): Function {
     return observe(stores.map(store => store.path), listener);
   }
 }

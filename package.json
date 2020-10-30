@@ -68,6 +68,7 @@
   },
   "dependencies": {
     "immutable": "^4.0.0-rc.12",
+    "immutable-cursor": "^2.0.1",
     "immutable-devtools": "^0.1.5",
     "react": "^16.14.0",
     "react-dom": "^16.14.0",

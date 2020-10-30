@@ -1,22 +1,18 @@
 /* @flow */
 
-import {Record, List, Map} from 'immutable';
+import {Record} from 'immutable';
 
-export class Todo extends Record({
+export class TodoList extends Record({
   id: 0,
   title: ''
 }) {
   id: number;
   title: string;
-
-  get title(): string {
-    return title;
-  }
 }
 
-export function toTodo(todo: Object) {
-  return new Todo({
+export function toTodo(todo: Object): TodoList {
+  return new TodoList({
     id: todo.id,
-    title: todo.title || '--'
+    title: todo.title
   });
 }

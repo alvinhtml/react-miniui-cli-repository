@@ -1,15 +1,16 @@
 /* @flow */
 
 import {Map} from 'immutable';
-import Cursor from 'immutable/contrib/cursor';
-import type {Cursor as CursorType} from 'immutable/contrib/cursor';
+import type {Map as MapType} from 'immutable';
+import Cursor from 'immutable-cursor';
+
 
 export type Payload = Object;
 export type Action = {
   type: string
 };
 export type KeyPath = Array<string>;
-export type CursorHandler = (cursor: CursorType, action: Action) => void;
+export type CursorHandler = (cursor: MapType<string, any>, action: Action) => void;
 export type Reducer = (state: any, action: Action) => any;
 
 // 当 State 更新时，打印 log
@@ -30,7 +31,7 @@ export function createReducer(
   path: KeyPath,
   handler: CursorHandler
 ): Reducer {
-  return (state: any, action: Action) => {
+  return (state: mixed, action: Action) => {
     let currentState = state;
 
     const onChange = (newState, prevState, changedPath = []) => {

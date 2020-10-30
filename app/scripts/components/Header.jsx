@@ -5,9 +5,9 @@ export default class Header extends Component {
 
   render() {
     return(
-      <div style={{testAlign: 'right'}}>
+      <div style={{padding: '24px'}}>
         <Link to="/welcome">welcome</Link>
-         |
+         {' ' }| {' '}
         <Link to="/todolist">TodoList</Link>
       </div>
     )
