@@ -1,17 +1,23 @@
 /* @flow */
 
-import {Record} from 'immutable';
+import type { RecordOf, RecordFactory } from "immutable";
+import { Record, List } from "immutable";
 
-export class TodoList extends Record({
-  id: 0,
-  title: ''
-}) {
+
+type TodoListProps = {
   id: number;
   title: string;
 }
 
-export function toTodo(todo: Object): TodoList {
-  return new TodoList({
+export type TodoList = RecordOf<TodoListProps>;
+
+const makeRecord: RecordFactory<TodoListProps> = Record({
+  id: 0,
+  title: ''
+});
+
+export function toTodo(todo: TodoListProps): TodoList {
+  return makeRecord({
     id: todo.id,
     title: todo.title
   });

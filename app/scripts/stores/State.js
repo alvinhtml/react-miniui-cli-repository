@@ -1,16 +1,26 @@
 /* @flow */
 
 import {Map} from 'immutable';
+import type {Map as MapType} from 'immutable';
 import {createStore} from 'redux';
 import type {Store} from 'redux';
 
 import {makeRootReducer} from '~/stores/Reducer';
-import type {KeyPath} from '~/stores/Reducer';
 
-const {rootReducer, addCursorHandler} = makeRootReducer();
+type Action = {
+  type: string
+};
+type KeyPath = Array<string>;
+type RootReducer = {
+  rootReducer: Function,
+  addCursorHandler: Function
+}
 
+const {rootReducer, addCursorHandler}: RootReducer = makeRootReducer();
 
-const {getState, subscribe, dispatch} = createStore(rootReducer, new Map());
+const store: Store<MapType<string, any>, Action> = createStore(rootReducer, new Map());
+
+const {getState, subscribe, dispatch} = store;
 
 export function observe(paths: Array<KeyPath>, listener: Function): Function {
   let state = getState();

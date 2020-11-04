@@ -5,13 +5,13 @@ import type {Map as MapType} from 'immutable';
 import Cursor from 'immutable-cursor';
 
 
-export type Payload = Object;
-export type Action = {
+type Payload = Object;
+type Action = {
   type: string
 };
-export type KeyPath = Array<string>;
-export type CursorHandler = (cursor: MapType<string, any>, action: Action) => void;
-export type Reducer = (state: any, action: Action) => any;
+type KeyPath = Array<string>;
+type CursorHandler = (cursor: MapType<string, any>, action: Action) => void;
+type Reducer = (state: any, action: Action) => any;
 
 // 当 State 更新时，打印 log
 function stateLogger(newState: any, prevState: any, changedPath: KeyPath) {
@@ -59,12 +59,16 @@ export function createReducer(
   };
 }
 
+type RootReducer = {
+  addCursorHandler: (path: KeyPath, defaultState: mixed, handler: CursorHandler) => void,
+  rootReducer: (state: Map<any, any>, action: Action) => Map<string, any>
+}
 
-export function makeRootReducer() {
+export function makeRootReducer(): RootReducer {
   const reducers = [];
   const defaultStates = [];
 
-  function addCursorHandler(path: KeyPath, defaultState: mixed, handler: CursorHandler) {
+  function addCursorHandler(path: KeyPath, defaultState: mixed, handler: CursorHandler): void {
     reducers.push(createReducer(path, handler));
     defaultStates.push({
       path,
@@ -72,7 +76,7 @@ export function makeRootReducer() {
     });
   }
 
-  function rootReducer(state: Map<any, any>, action: Action) {
+  function rootReducer(state: Map<any, any>, action: Action): Map<string, any> {
     while (defaultStates.length > 0) {
       const {path, defaultState} = defaultStates.shift();
       if (process.env.NODE_ENV !== 'production') {

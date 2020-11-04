@@ -1,15 +1,23 @@
 /* @flow */
 
-import React, {Component} from 'react';
+import * as React from 'react';
 import {FormGroup, Button, Input} from 'react-miniui';
 import {loadTodos, createTodo, removeTodo} from '~/actions/TodoList';
 
-export default class TodoList extends Component<{}, {todos: Array<string>}> {
+type State = {
+  todos: Array<Object>,
+  errorMessage: string,
+  title: string
+}
+
+export default class TodoList extends React.Component<{}, State> {
 
   constructor() {
     super()
     this.state = {
-      todos: []
+      todos: [],
+      title: '',
+      errorMessage: ''
     }
   }
 
@@ -52,7 +60,7 @@ export default class TodoList extends Component<{}, {todos: Array<string>}> {
     })
   }
 
-  render() {
+  render(): React.Node {
     const {todos, title, errorMessage} = this.state;
     return(
       <div className="todo-wrap">
@@ -62,7 +70,7 @@ export default class TodoList extends Component<{}, {todos: Array<string>}> {
             <th>标题</th>
             <th>操作</th>
           </tr>
-          {todos.map((item) => (
+          {todos.length > 0 && todos.map((item) => (
             <tr key={item.id}>
               <td>{item.id}</td>
               <td>{item.title}</td>

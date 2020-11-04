@@ -6,7 +6,8 @@ import Store from '~/stores/Store';
 import Loading from '~/services/Loading';
 import NotFound from '~/services/NotFound';
 import {ActionTypes} from '~/Constants';
-import {TodoList as TodoListRecord, toTodo} from '~/models/TodoList';
+import {toTodo} from '~/models/TodoList';
+import type {TodoList as TodoListRecord} from '~/models/TodoList';
 
 class TodoList extends Store {
   getAllTodos(): List<TodoListRecord> | Loading {

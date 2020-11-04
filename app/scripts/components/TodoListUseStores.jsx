@@ -1,27 +1,26 @@
 /* @flow */
 
-import React, {Component, useState, useEffect, useCallback} from 'react';
+import * as React from 'react';
 import {List} from 'immutable';
 import {FormGroup, Button, Input} from 'react-miniui';
 
 import {loadTodos, createTodo, removeTodo} from '~/actions/TodoList';
-import {store, dispatch} from '~/stores/Store';
 import {useStores} from '~/hooks/UseStores';
 import {useLoading} from '~/hooks/UseLoading';
 import TodoStore from '~/stores/TodoList';
-import {TodoList as TodoListRecord} from '~/models/TodoList';
+import type {TodoList as TodoListRecord} from '~/models/TodoList';
 
-export default function TodoList (props) {
-  const [title, setTitle] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
+export default function TodoList (props: {}): React.Node {
+  const [title, setTitle] = React.useState<string>('');
+  const [errorMessage, setErrorMessage] = React.useState<string>('');
 
   // 更新输入框
-  const handleChange = useCallback((e: any) => {
+  const handleChange = React.useCallback((e: any) => {
     setTitle(e.currentTarget.value);
   }, []);
 
   // 创建一条 Todo
-  const handleCreate = useCallback((title: string) => {
+  const handleCreate = React.useCallback((title: string) => {
     createTodo({
       title
     })
@@ -34,15 +33,14 @@ export default function TodoList (props) {
   }, []);
 
   // 删除
-  const handleRemove = useCallback((id: number) => {
+  const handleRemove = React.useCallback((id: number) => {
     removeTodo(id)
       .then(() => {
         loadTodos();
       })
   }, []);
 
-
-  useEffect(() => {
+  React.useEffect(() => {
     loadTodos();
   }, []);
 

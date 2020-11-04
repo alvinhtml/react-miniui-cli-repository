@@ -1,18 +1,15 @@
 /* @flow */
 
-import React, {Component, useState, useEffect, useCallback} from 'react';
+import * as React from 'react';
 import {loadTodos, createTodo, removeTodo} from '~/actions/TodoList';
-import {store, dispatch} from '~/stores/Store';
 
 
-export default function TodoList () {
-  const [title, setTitle] = useState('');
-  const [todos, setTodos] = useState([]);
-  const [errorMessage, setErrorMessage] = useState('');
+export default function TodoList (): React.Node {
+  const [title, setTitle] = React.useState<string>('');
+  const [todos, setTodos] = React.useState<Array<Object>>([]);
+  const [errorMessage, setErrorMessage] = React.useState<string>('');
 
-  console.log("store", store);
-
-  const handleLoadTodos = useCallback(() => {
+  const handleLoadTodos = React.useCallback(() => {
     loadTodos()
       .then((data) => {
         setTodos(data);
@@ -22,11 +19,11 @@ export default function TodoList () {
       })
   }, []);
 
-  useEffect(() => {
+  React.useEffect(() => {
     handleLoadTodos();
   }, [handleLoadTodos]);
 
-  const handleCreate = useCallback(() => {
+  const handleCreate = React.useCallback(() => {
     createTodo({
       title
     })
@@ -38,7 +35,7 @@ export default function TodoList () {
     })
   }, [title]);
 
-  const handleRemove = useCallback((id: number) => {
+  const handleRemove = React.useCallback((id: number) => {
     removeTodo(id)
       .then(() => {
         handleLoadTodos();

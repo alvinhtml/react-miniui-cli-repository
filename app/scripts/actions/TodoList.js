@@ -5,7 +5,7 @@ import {dispatch} from '../stores/State';
 import {ActionTypes} from '../Constants';
 import {TodoList} from '~/services/TodoList';
 
-export async function loadTodos(): Promise<void> {
+export async function loadTodos(): Promise<Array<?Object>> {
   const todos = await new TodoList().get();
 
   dispatch({
