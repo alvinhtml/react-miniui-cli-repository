@@ -4,8 +4,8 @@
   "description": "react-miniui-cli-repository",
   "main": "index.js",
   "scripts": {
-    "dev": "NODE_ENV=development webpack serve --mode development",
-    "start": "NODE_ENV=development webpack serve --mode development",
+    "dev": "node todoServer.test.js && NODE_ENV=development webpack serve --mode development",
+    "start": "node todoServer.test.js && NODE_ENV=development webpack serve --mode development",
     "lint": "npx eslint app/**/*.js && flow check",
     "flowcheck": "flow check",
     "build": "rm -rf ./dist && NODE_ENV=production webpack --mode production",

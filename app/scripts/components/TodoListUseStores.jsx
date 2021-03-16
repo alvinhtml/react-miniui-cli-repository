@@ -44,9 +44,7 @@ export default function TodoList (props: {}): React.Node {
     loadTodos();
   }, []);
 
-  const {todos}: {
-    todos: List<TodoListRecord>
-  } = useStores([TodoStore], () => ({
+  const {todos: List<TodoListRecord>} = useStores([TodoStore], () => ({
     todos: TodoStore.getAllTodos()
   }));
 
@@ -59,7 +57,7 @@ export default function TodoList (props: {}): React.Node {
     <div style={{width: '600px', margin: '0 auto'}}>
       <ul>
         {todos.map((v, i) => (
-          <li key={i}>{v.get('id')}. {v.get('title')} <span onClick={handleRemove.bind(this, v.get('id'))}>Remove</span></li>
+          <li key={i}>{v.get('id')}. {v.get('title')} <Button size="mini" color="red" onClick={handleRemove.bind(this, v.get('id'))}>Remove</Button></li>
         )).toArray()}
       </ul>
       <FormGroup>
