@@ -13,17 +13,19 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/alvinhtml/d3.git"
+    "url": "git+https://github.com/alvinhtml/react-miniui-cli-repository.git"
   },
   "keywords": [
-    "d3.js"
+    "react",
+    "cli",
+    "component"
   ],
   "author": "alvinhtml@gmail.com",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/alvinhtml/d3/issues"
+    "url": "https://github.com/alvinhtml/react-miniui-cli-repository/issues"
   },
-  "homepage": "https://github.com/alvinhtml/d3#readme",
+  "homepage": "https://github.com/alvinhtml/react-miniui-cli-repository#readme",
   "devDependencies": {
     "@babel/core": "^7.3.3",
     "@babel/plugin-proposal-class-properties": "^7.3.3",
@@ -53,7 +55,7 @@
     "koa-body": "^4.2.0",
     "koa-route": "^3.2.0",
     "koa-router": "^9.4.0",
-    "mini-css-extract-plugin": "^0.5.0",
+    "mini-css-extract-plugin": "^1.3.1",
     "node-sass": "^4.11.0",
     "normalize-scss": "^7.0.1",
     "optimize-css-assets-webpack-plugin": "^5.0.1",
