@@ -9,3 +9,7 @@ npm install react-miniui-cli -g
 ```
 
 ## Usage
+
+```bash
+miniui-cli create myProjectName
+```
