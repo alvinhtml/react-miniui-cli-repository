@@ -131,10 +131,10 @@ const plugins = [ // 数组，放着所有 webpack 插件
   }),
   new FileManagerPlugin({
     onEnd: {
-      copy: [{
-        source: path.resolve(__dirname, 'favicon.ico'),
-        destination: path.resolve(__dirname, 'dist/')
-      }]
+      // copy: [{
+      //   source: path.resolve(__dirname, 'favicon.ico'),
+      //   destination: path.resolve(__dirname, 'dist/')
+      // }]
     }
   })
 ]

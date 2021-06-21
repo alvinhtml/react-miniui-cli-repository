@@ -44,7 +44,7 @@ export default function TodoList (props: {}): React.Node {
     loadTodos();
   }, []);
 
-  const {todos: List<TodoListRecord>} = useStores([TodoStore], () => ({
+  const {todos} = useStores([TodoStore], () => ({
     todos: TodoStore.getAllTodos()
   }));
 
