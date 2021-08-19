@@ -21,12 +21,9 @@ function App(): React.Node {
   );
 }
 
-
-
 render(
   <BrowserRouter>
     <div>
-      <App />
       <div><ActiveModal /></div>
     </div>
   </BrowserRouter>,
